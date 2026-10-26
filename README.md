@@ -54,7 +54,10 @@ Veritabanı şifresi **depoya konmaz**. `appsettings.json` içindeki `DefaultCon
 ```bash
 cd src/DeskFlow.Web
 dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Port=5432;Database=deskflow;Username=postgres;Password=SIFRENIZ"
+dotnet user-secrets set "VarsayilanYonetici:Sifre" "yonetici1"
 ```
+
+Uygulama ilk açıldığında `Yonetici` ve `Ogrenci` rolleri ile `yonetici@deskflow.local` adresli bir yönetici hesabı otomatik oluşturulur. Yönetici şifresi user-secrets'tan okunur (en az 6 karakter, bir rakam ve bir küçük harf içermeli).
 
 ### 3. Veritabanını oluşturun (migration)
 

@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using DeskFlow.Web.Models
+@inject SignInManager<Kullanici> SignInManager
+
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
@@ -29,10 +33,36 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-page="/Rezervasyonlarim">Rezervasyonlarım</a>
                         </li>
-                        <li class="nav-item ms-sm-auto">
-                            <a class="nav-link" asp-area="" asp-page="/GirisYap">Giriş Yap</a>
-                        </li>
-                        
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item ms-sm-auto">
+                                <span class="nav-link">
+                                    Merhaba, @User.Identity?.Name
+                                </span>
+                            </li>
+
+                            <li class="nav-item">
+                                <form method="post" asp-page="/CikisYap">
+                                    <button type="submit" class="nav-link btn btn-link">
+                                        Çıkış Yap
+                                    </button>
+                                    </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item ms-sm-auto">
+                                <a class="nav-link" asp-page="/GirisYap">
+                                    Giriş Yap
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/KayitOl">
+                                    Kayıt Ol
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
