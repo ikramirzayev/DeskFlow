@@ -1,4 +1,31 @@
-﻿@page
+@page
 @model DeskFlow.Web.Pages.GirisYapModel
 @{
+    ViewData["Title"] = "Giriş Yap";
 }
+
+<h1>Giriş Yap</h1>
+
+<form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Input.Email" class="form-label"></label>
+        <input asp-for="Input.Email" class="form-control" autocomplete="username" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.Sifre" class="form-label"></label>
+        <input asp-for="Input.Sifre" class="form-control" autocomplete="current-password" />
+        <span asp-validation-for="Input.Sifre" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="Input.BeniHatirla" class="form-check-input" />
+        <label asp-for="Input.BeniHatirla" class="form-check-label"></label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Giriş Yap</button>
+    <a asp-page="/KayitOl" class="ms-2">Hesabın yok mu? Kayıt ol</a>
+</form>

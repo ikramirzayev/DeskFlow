@@ -1,0 +1,50 @@
+@page
+@model DeskFlow.Web.Pages.KayitOlModel
+@{
+    ViewData["Title"] = "Kayıt Ol";
+}
+
+<h1>Kayıt Ol</h1>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Input.Ad" class="form-label"></label>
+        <input asp-for="Input.Ad" class="form-control" />
+        <span asp-validation-for="Input.Ad" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.Soyad" class="form-label"></label>
+        <input asp-for="Input.Soyad" class="form-control" />
+        <span asp-validation-for="Input.Soyad" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.OgrenciNo" class="form-label"></label>
+        <input asp-for="Input.OgrenciNo" class="form-control" />
+        <span asp-validation-for="Input.OgrenciNo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.Email" class="form-label"></label>
+        <input asp-for="Input.Email" class="form-control" autocomplete="username" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.Sifre" class="form-label"></label>
+        <input asp-for="Input.Sifre" class="form-control" autocomplete="new-password" />
+        <span asp-validation-for="Input.Sifre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.SifreTekrar" class="form-label"></label>
+        <input asp-for="Input.SifreTekrar" class="form-control" autocomplete="new-password" />
+        <span asp-validation-for="Input.SifreTekrar" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+    <a asp-page="/GirisYap" class="ms-2">Zaten hesabın var mı? Giriş yap</a>
+</form>
