@@ -17,4 +17,6 @@ public class Kullanici : IdentityUser
     public string? OgrenciNo { get; set; }
 
     public DateTime KayitTarihi { get; set; } = DateTime.UtcNow;
+
+    public List<Rezervasyon> Rezervasyonlar { get; set; } = new();
 }

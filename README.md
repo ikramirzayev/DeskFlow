@@ -65,8 +65,6 @@ Uygulama ilk açıldığında `Yonetici` ve `Ogrenci` rolleri ile `yonetici@desk
 dotnet ef database update
 ```
 
-> Not: Migration'lar 2. haftada eklenecektir.
-
 ### 4. Uygulamayı çalıştırın
 
 ```bash
