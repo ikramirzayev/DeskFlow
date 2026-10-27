@@ -14,10 +14,8 @@ namespace DeskFlow.Web.Pages
         {
             _signInManager = signInManager;
         }
-
         [BindProperty]
         public InputModel Input { get; set; } = new();
-
         public string? ReturnUrl { get; set; }
 
         public class InputModel
