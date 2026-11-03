@@ -1,0 +1,89 @@
+@page
+@model DeskFlow.Web.Pages.Admin.Masalar.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Masa[0].MasaNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Masa[0].SalonId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Masa[0].X)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Masa[0].Y)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Masa[0].PrizliMi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Masa[0].SessizBolgeMi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Masa[0].QrKod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Masa[0].AktifMi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Masa[0].Salon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Masa[0].Rezervasyonlar)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Masa) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.MasaNo)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.SalonId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.X)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Y)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.PrizliMi)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.SessizBolgeMi)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.QrKod)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.AktifMi)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Salon)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Rezervasyonlar)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

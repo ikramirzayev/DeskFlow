@@ -1,0 +1,79 @@
+@page
+@model DeskFlow.Web.Pages.Admin.Masalar.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Masa</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.MasaNo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.MasaNo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.SalonId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.SalonId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.X)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.X)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.Y)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.Y)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.PrizliMi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.PrizliMi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.SessizBolgeMi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.SessizBolgeMi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.QrKod)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.QrKod)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.AktifMi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.AktifMi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.Salon)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.Salon)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.Rezervasyonlar)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.Rezervasyonlar)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Masa.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

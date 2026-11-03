@@ -1,0 +1,83 @@
+@page
+@model DeskFlow.Web.Pages.Admin.Masalar.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Masa</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Masa.Id" />
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Masa.MasaNo" class="control-label"></label>
+                <input asp-for="Masa.MasaNo" class="form-control" aria-required="true"/>
+                <span asp-validation-for="Masa.MasaNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Masa.SalonId" class="control-label"></label>
+                <input asp-for="Masa.SalonId" class="form-control" aria-required="true"/>
+                <span asp-validation-for="Masa.SalonId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Masa.X" class="control-label"></label>
+                <input asp-for="Masa.X" class="form-control" />
+                <span asp-validation-for="Masa.X" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Masa.Y" class="control-label"></label>
+                <input asp-for="Masa.Y" class="form-control" />
+                <span asp-validation-for="Masa.Y" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Masa.PrizliMi" class="control-label"></label>
+                <input asp-for="Masa.PrizliMi" class="form-check-input" />
+                <span asp-validation-for="Masa.PrizliMi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Masa.SessizBolgeMi" class="control-label"></label>
+                <input asp-for="Masa.SessizBolgeMi" class="form-check-input" />
+                <span asp-validation-for="Masa.SessizBolgeMi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="Masa.QrKod" class="control-label"></label>
+                <input asp-for="Masa.QrKod" class="form-control" aria-required="true"/>
+                <span asp-validation-for="Masa.QrKod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Masa.AktifMi" class="control-label"></label>
+                <input asp-for="Masa.AktifMi" class="form-check-input" />
+                <span asp-validation-for="Masa.AktifMi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Masa.Salon" class="control-label"></label>
+                <input asp-for="Masa.Salon" class="form-control" />
+                <span asp-validation-for="Masa.Salon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Masa.Rezervasyonlar" class="control-label"></label>
+                <input asp-for="Masa.Rezervasyonlar" class="form-control" />
+                <span asp-validation-for="Masa.Rezervasyonlar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
