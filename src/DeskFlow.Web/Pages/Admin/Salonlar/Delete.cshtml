@@ -1,0 +1,50 @@
+@page
+@model DeskFlow.Web.Pages.Admin.Salonlar.DeleteModel
+@{
+    ViewData["Title"] = "Salonu Sil";
+}
+
+<h1>Salonu Sil</h1>
+
+@if (Model.RezervasyonSayisi > 0)
+{
+    <div class="alert alert-danger">
+        Bu salonun masalarına ait <strong>@Model.RezervasyonSayisi</strong> rezervasyon kaydı var.
+        Rezervasyon kayıtları korunduğu için bu salon silinemez. İstersen salonu düzenleyip pasif yapabilirsin.
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        Bu salon silinirse <strong>@Model.MasaSayisi masa da silinecek</strong>. Bu işlem geri alınamaz.
+    </div>
+}
+
+<dl class="row">
+    <dt class="col-sm-3">Salon adı</dt>
+    <dd class="col-sm-9">@Model.Salon.Ad</dd>
+
+    <dt class="col-sm-3">Kat</dt>
+    <dd class="col-sm-9">@Model.Salon.Kat</dd>
+
+    <dt class="col-sm-3">Kapasite</dt>
+    <dd class="col-sm-9">@Model.Salon.Kapasite</dd>
+
+    <dt class="col-sm-3">Masa sayısı</dt>
+    <dd class="col-sm-9">@Model.MasaSayisi</dd>
+
+    <dt class="col-sm-3">Açılış – Kapanış</dt>
+    <dd class="col-sm-9">@Model.Salon.AcilisSaati.ToString("HH:mm") – @Model.Salon.KapanisSaati.ToString("HH:mm")</dd>
+
+    <dt class="col-sm-3">Durum</dt>
+    <dd class="col-sm-9">@(Model.Salon.AktifMi ? "Aktif" : "Pasif")</dd>
+</dl>
+
+<form method="post">
+    <input type="hidden" name="id" value="@Model.Salon.Id" />
+    @if (Model.RezervasyonSayisi == 0)
+    {
+        <button type="submit" class="btn btn-danger">Evet, sil</button>
+    }
+    <a asp-page="Index" class="btn btn-outline-secondary ms-2">Vazgeç</a>
+</form>
