@@ -1,0 +1,56 @@
+@page
+@model DeskFlow.Web.Pages.Admin.Salonlar.EditModel
+@{
+    ViewData["Title"] = "Salonu Düzenle";
+}
+
+<h1>Salonu Düzenle</h1>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Salon.Id" />
+
+    <div class="mb-3">
+        <label asp-for="Salon.Ad" class="form-label">Salon adı</label>
+        <input asp-for="Salon.Ad" class="form-control" />
+        <span asp-validation-for="Salon.Ad" class="text-danger"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Salon.Kat" class="form-label">Kat</label>
+            <input asp-for="Salon.Kat" class="form-control" />
+            <span asp-validation-for="Salon.Kat" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Salon.Kapasite" class="form-label">Kapasite</label>
+            <input asp-for="Salon.Kapasite" class="form-control" />
+            <span asp-validation-for="Salon.Kapasite" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Salon.AcilisSaati" class="form-label">Açılış saati</label>
+            <input asp-for="Salon.AcilisSaati" asp-format="{0:HH:mm}" type="time" class="form-control" />
+            <span asp-validation-for="Salon.AcilisSaati" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Salon.KapanisSaati" class="form-label">Kapanış saati</label>
+            <input asp-for="Salon.KapanisSaati" asp-format="{0:HH:mm}" type="time" class="form-control" />
+            <span asp-validation-for="Salon.KapanisSaati" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="Salon.AktifMi" class="form-check-input" />
+        <label asp-for="Salon.AktifMi" class="form-check-label">Aktif</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Güncelle</button>
+    <a asp-page="Index" class="btn btn-outline-secondary ms-2">Vazgeç</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
