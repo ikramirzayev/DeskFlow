@@ -17,6 +17,7 @@ public class DeleteModel : PageModel
 
     [BindProperty]
     public Masa Masa { get; set; } = default!;
+    public bool RezervasyonVar { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -33,6 +34,7 @@ public class DeleteModel : PageModel
         else
         {
             Masa = masa;
+            RezervasyonVar = await _context.Rezervasyonlar.AnyAsync(r => r.MasaId == masa.Id);
         }
 
         return Page();
@@ -46,12 +48,20 @@ public class DeleteModel : PageModel
         }
 
         var masa = await _context.Masalar.FindAsync(id);
-        if (masa != null)
+        if (masa == null)
         {
-            Masa = masa;
-            _context.Masalar.Remove(Masa);
-            await _context.SaveChangesAsync();
+            return RedirectToPage("./Index");
         }
+
+        Masa = masa;
+        if (await _context.Rezervasyonlar.AnyAsync(r => r.MasaId == id))
+        {
+            RezervasyonVar = true;
+            return Page();
+        }
+
+        _context.Masalar.Remove(Masa);
+        await _context.SaveChangesAsync();
 
         return RedirectToPage("./Index");
     }
