@@ -5,7 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(o =>
+{
+    // Pages/Admin altındaki bütün sayfalar sadece yöneticiye açık.
+    o.Conventions.AuthorizeFolder("/Admin", "YoneticiPolitikasi");
+});
+
+builder.Services.AddAuthorization(o =>
+{
+    o.AddPolicy("YoneticiPolitikasi", p => p.RequireRole(Roller.Yonetici));
+});
 
 builder.Services.AddDbContext<AppDbContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -30,7 +39,7 @@ builder.Services.ConfigureApplicationCookie(o =>
 {
     o.LoginPath = "/GirisYap";
     o.LogoutPath = "/CikisYap";
-    o.AccessDeniedPath = "/GirisYap";
+    o.AccessDeniedPath = "/YetkisizErisim";
 });
 
 var app = builder.Build();

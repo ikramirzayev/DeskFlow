@@ -1,0 +1,63 @@
+@page
+@model DeskFlow.Web.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Yönetim Paneli";
+}
+
+<h1 class="h3 mb-4">Yönetim Paneli</h1>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="display-6">@Model.SalonSayisi</div>
+                <div class="text-muted">Salon</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="display-6">@Model.MasaSayisi</div>
+                <div class="text-muted">Masa (@Model.AktifMasaSayisi aktif)</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="display-6">@Model.OgrenciSayisi</div>
+                <div class="text-muted">Öğrenci</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="display-6">@Model.BugunkuRezervasyonSayisi</div>
+                <div class="text-muted">Bugünkü rezervasyon</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-12 col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h5 card-title">Salonlar</h2>
+                <p class="card-text">Salon ekleyin, çalışma saatlerini ve kapasitesini düzenleyin.</p>
+                <a href="/Admin/Salonlar" class="btn btn-dark df-btn">Salonları Yönet</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h5 card-title">Masalar</h2>
+                <p class="card-text">Masa ekleyin, konumunu, prizini ve sessiz bölge bilgisini düzenleyin.</p>
+                <a href="/Admin/Masalar" class="btn btn-dark df-btn">Masaları Yönet</a>
+            </div>
+        </div>
+    </div>
+</div>
