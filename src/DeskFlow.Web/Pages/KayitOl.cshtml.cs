@@ -1,3 +1,4 @@
+
 using System.ComponentModel.DataAnnotations;
 using DeskFlow.Web.Models;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +12,9 @@ namespace DeskFlow.Web.Pages
         private readonly UserManager<Kullanici> _userManager;
         private readonly SignInManager<Kullanici> _signInManager;
 
-        public KayitOlModel(UserManager<Kullanici> userManager, SignInManager<Kullanici> signInManager)
+        public KayitOlModel(
+            UserManager<Kullanici> userManager,
+            SignInManager<Kullanici> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -76,16 +79,30 @@ namespace DeskFlow.Web.Pages
             };
 
             var sonuc = await _userManager.CreateAsync(kullanici, Input.Sifre);
+
             if (!sonuc.Succeeded)
             {
                 foreach (var hata in sonuc.Errors)
                 {
                     ModelState.AddModelError(string.Empty, hata.Description);
                 }
+
                 return Page();
             }
 
-            await _userManager.AddToRoleAsync(kullanici, Roller.Ogrenci);
+            var rolSonucu = await _userManager.AddToRoleAsync(kullanici, Roller.Ogrenci);
+
+            if (!rolSonucu.Succeeded)
+            {
+                foreach (var hata in rolSonucu.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, hata.Description);
+                }
+
+                await _userManager.DeleteAsync(kullanici);
+                return Page();
+            }
+
             await _signInManager.SignInAsync(kullanici, isPersistent: false);
 
             return RedirectToPage("/Index");
