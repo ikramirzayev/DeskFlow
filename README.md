@@ -71,7 +71,9 @@ dotnet ef database update
 dotnet run
 ```
 
-Uygulama `https://localhost:7176` (veya `http://localhost:5137`) adresinde açılır.
+Uygulama `https://localhost:7176` (veya `http://localhost:5080`) adresinde açılır.
+
+Yönetici paneli: `/Admin` (yalnızca `Yonetici` rolü). Varsayılan yönetici: `yonetici@deskflow.local`.
 
 ## Çalışma kuralları
 
