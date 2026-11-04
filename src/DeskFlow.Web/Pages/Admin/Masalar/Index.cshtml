@@ -1,0 +1,64 @@
+@page
+@model DeskFlow.Web.Pages.Admin.Masalar.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Masalar</h1>
+<form method="get" class="mb-3">
+    <select name="SalonId" asp-items="Model.Salonlar" class="form-select d-inline w-auto">
+        <option value="">Tüm salonlar</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Filtrele</button>
+</form>
+
+<p>
+    <a asp-page="Create">Yeni Masa</a>
+</p>
+
+<table class="table align-middle">
+    <thead>
+        <tr>
+            <th>Masa No</th>
+            <th>Salon</th>
+            <th>Özellikler</th>
+            <th>QR Kod</th>
+            <th>Durum</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Masa)
+        {
+            <tr>
+                <td>@item.MasaNo</td>
+                <td>@item.Salon.Ad</td>
+                <td>
+                    @if (item.PrizliMi)
+                    {
+                        <span class="badge bg-warning text-dark">Prizli</span>
+                    }
+                    @if (item.SessizBolgeMi)
+                    {
+                        <span class="badge bg-info text-dark">Sessiz</span>
+                    }
+                </td>
+                <td>@item.QrKod</td>
+                <td>
+                    @if (item.AktifMi)
+                    {
+                        <span class="badge bg-success">Aktif</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Pasif</span>
+                    }
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Düzenle</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

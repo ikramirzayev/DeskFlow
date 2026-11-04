@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using DeskFlow.Web.Models
 @inject SignInManager<Kullanici> SignInManager
+@inject UserManager<Kullanici> UserManager
 
 <!DOCTYPE html>
 <html lang="tr">
@@ -36,14 +37,15 @@
                         @if (User.IsInRole(Roller.Yonetici))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-page="/Admin/Salonlar/Index">Salon Yönetimi</a>
+                                <a class="nav-link" asp-page="/Admin/Index">Yönetim</a>
                             </li>
                         }
                         @if (SignInManager.IsSignedIn(User))
                         {
+                            var kullanici = await UserManager.GetUserAsync(User);
                             <li class="nav-item ms-sm-auto">
                                 <span class="nav-link">
-                                    Merhaba, @User.Identity?.Name
+                                    Merhaba, @kullanici?.Ad
                                 </span>
                             </li>
 

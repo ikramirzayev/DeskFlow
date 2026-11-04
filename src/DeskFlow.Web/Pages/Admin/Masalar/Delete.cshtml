@@ -1,0 +1,77 @@
+@page
+@model DeskFlow.Web.Pages.Admin.Masalar.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1 class="h3 mb-3">Masa Sil</h1>
+<p class="lead">Bu masayı silmek istediğinize emin misiniz?</p>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.MasaNo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.MasaNo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.SalonId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.SalonId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.X)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.X)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.Y)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.Y)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.PrizliMi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.PrizliMi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.SessizBolgeMi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.SessizBolgeMi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.QrKod)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.QrKod)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Masa.AktifMi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Masa.AktifMi)
+        </dd>
+    </dl>
+       @if (Model.RezervasyonVar)
+       {
+       <div class="alert alert-warning">
+           Bu masanın rezervasyonları olduğu için silinemez, pasif yapabilirsiniz.
+       </div>
+       }
+    <form method="post">
+        <input type="hidden" asp-for="Masa.Id" />
+        @if (!Model.RezervasyonVar)
+        {
+            <input type="submit" value="Sil" class="btn btn-danger" />
+        }
+        <a asp-page="./Index">Listeye Dön</a>
+    </form>
+</div>
