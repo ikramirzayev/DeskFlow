@@ -75,6 +75,22 @@ Uygulama `https://localhost:7176` (veya `http://localhost:5080`) adresinde açı
 
 Yönetici paneli: `/Admin` (yalnızca `Yonetici` rolü). Varsayılan yönetici: `yonetici@deskflow.local`.
 
+### Web API ve Swagger
+
+Geliştirme ortamında Swagger arayüzü `http://localhost:5080/swagger` adresindedir.
+
+Web'de giriş cookie ile yapıldığı için Swagger'da yetkili olmak için önce siteye (`/GirisYap`) yönetici olarak giriş yapın, sonra aynı tarayıcıda Swagger'ı açın. JWT gerekmez.
+
+| Yöntem | Adres | Yetki | Açıklama |
+|---|---|---|---|
+| GET | `/api/masalar` | Herkes | Masa listesi. Filtreler: `?salonId=1&prizli=true&sessiz=true` |
+| GET | `/api/masalar/{id}` | Herkes | Tek masa, bulunamazsa 404 |
+| POST | `/api/masalar` | Yönetici | Masa ekler (201). Aynı salonda aynı numara varsa 400 |
+| PUT | `/api/masalar/{id}` | Yönetici | Masayı günceller |
+| DELETE | `/api/masalar/{id}` | Yönetici | Masayı siler (204). Rezervasyonu varsa 409 |
+
+`/api` ile başlayan isteklerde giriş yoksa 401, yetki yoksa 403 döner (giriş sayfasına yönlendirilmez).
+
 ## Çalışma kuralları
 
 - Herkes kendi GitHub hesabıyla commit ve push yapar.

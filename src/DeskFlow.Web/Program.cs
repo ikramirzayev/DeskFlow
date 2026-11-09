@@ -3,6 +3,7 @@ using DeskFlow.Web.Models;
 using DeskFlow.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,43 @@ builder.Services.ConfigureApplicationCookie(o =>
     o.LoginPath = "/GirisYap";
     o.LogoutPath = "/CikisYap";
     o.AccessDeniedPath = "/YetkisizErisim";
+
+    // /api ile başlayan isteklerde giriş sayfasına yönlendirme yapma:
+    // giriş yoksa 401, yetki yoksa 403 dön.
+    o.Events.OnRedirectToLogin = ctx =>
+    {
+        if (ctx.Request.Path.StartsWithSegments("/api"))
+        {
+            ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        }
+        else
+        {
+            ctx.Response.Redirect(ctx.RedirectUri);
+        }
+        return Task.CompletedTask;
+    };
+    o.Events.OnRedirectToAccessDenied = ctx =>
+    {
+        if (ctx.Request.Path.StartsWithSegments("/api"))
+        {
+            ctx.Response.StatusCode = StatusCodes.Status403Forbidden;
+        }
+        else
+        {
+            ctx.Response.Redirect(ctx.RedirectUri);
+        }
+        return Task.CompletedTask;
+    };
+});
+
+builder.Services.AddControllers();
+
+// Swagger sadece geliştirme ortamında açılır. Web'de giriş cookie ile yapıldığı için
+// siteye yönetici olarak giriş yapınca Swagger'da da yetkili olunur.
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(o =>
+{
+    o.SwaggerDoc("v1", new OpenApiInfo { Title = "DeskFlow API", Version = "v1" });
 });
 
 var app = builder.Build();
@@ -64,6 +102,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseRouting();
 
 app.UseAuthentication();
@@ -72,5 +116,7 @@ app.UseAuthorization();
 app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
+
+app.MapControllers();
 
 app.Run();
