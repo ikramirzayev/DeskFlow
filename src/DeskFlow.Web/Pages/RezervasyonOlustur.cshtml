@@ -1,0 +1,84 @@
+@page
+@model DeskFlow.Web.Pages.RezervasyonOlusturModel
+@{
+    ViewData["Title"] = "Rezervasyon Yap";
+    var masa = Model.Masa!;
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <h1 class="h3 mb-3">Rezervasyon Yap</h1>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="h5 card-title mb-1">@masa.Salon.Ad</h2>
+                <p class="mb-2 text-muted">Masa @masa.MasaNo · Kat @masa.Salon.Kat</p>
+                <div class="mb-2">
+                    @if (masa.PrizliMi)
+                    {
+                        <span class="badge text-bg-secondary">Prizli</span>
+                    }
+                    @if (masa.SessizBolgeMi)
+                    {
+                        <span class="badge text-bg-secondary">Sessiz bölge</span>
+                    }
+                </div>
+                <small class="text-muted">
+                    Salon @masa.Salon.AcilisSaati.ToString("HH:mm") – @masa.Salon.KapanisSaati.ToString("HH:mm") saatleri arasında açık.
+                    Rezervasyon en az @RezervasyonServisi.EnAzDakika dakika, en fazla @RezervasyonServisi.EnFazlaSaat saat olabilir.
+                </small>
+            </div>
+        </div>
+
+        @if (!masa.AktifMi || !masa.Salon.AktifMi)
+        {
+            <div class="alert alert-warning">Bu masa şu anda rezervasyona kapalı.</div>
+        }
+
+        <form method="post" asp-route-masaId="@Model.MasaId">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Tarih" class="form-label"></label>
+                <input asp-for="Input.Tarih" class="form-control" />
+                <span asp-validation-for="Input.Tarih" class="text-danger"></span>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-6">
+                    <label asp-for="Input.BaslangicSaati" class="form-label"></label>
+                    <input asp-for="Input.BaslangicSaati" class="form-control" step="900" />
+                    <span asp-validation-for="Input.BaslangicSaati" class="text-danger"></span>
+                </div>
+                <div class="col-6">
+                    <label asp-for="Input.BitisSaati" class="form-label"></label>
+                    <input asp-for="Input.BitisSaati" class="form-control" step="900" />
+                    <span asp-validation-for="Input.BitisSaati" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-dark df-btn w-100">Rezervasyonu Onayla</button>
+        </form>
+
+        <h2 class="h6 mt-4">Bu masanın dolu saatleri</h2>
+        @if (Model.DoluSaatler.Count == 0)
+        {
+            <p class="text-muted">Önümüzdeki günlerde bu masa için rezervasyon yok.</p>
+        }
+        else
+        {
+            <ul class="list-group">
+                @foreach (var (baslangic, bitis) in Model.DoluSaatler)
+                {
+                    <li class="list-group-item">
+                        @baslangic.ToString("dd.MM.yyyy") · @baslangic.ToString("HH:mm") – @bitis.ToString("HH:mm")
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

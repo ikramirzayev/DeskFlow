@@ -30,7 +30,6 @@ namespace DeskFlow.Web.Pages.Admin
             AktifMasaSayisi = await _db.Masalar.CountAsync(m => m.AktifMi);
             OgrenciSayisi = (await _userManager.GetUsersInRoleAsync(Roller.Ogrenci)).Count;
 
-            // Veritabanında zamanlar UTC tutuluyor; "bugün"ü yerel saate göre hesaplayıp UTC'ye çeviriyoruz.
             var gunBaslangici = DateTime.Today.ToUniversalTime();
             var gunBitisi = DateTime.Today.AddDays(1).ToUniversalTime();
             BugunkuRezervasyonSayisi = await _db.Rezervasyonlar

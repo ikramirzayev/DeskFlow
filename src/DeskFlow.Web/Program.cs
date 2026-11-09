@@ -1,5 +1,6 @@
 using DeskFlow.Web.Data;
 using DeskFlow.Web.Models;
+using DeskFlow.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,8 @@ builder.Services.AddAuthorization(o =>
 
 builder.Services.AddDbContext<AppDbContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<RezervasyonServisi>();
 
 builder.Services
     .AddIdentity<Kullanici, IdentityRole>(o =>

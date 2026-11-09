@@ -30,7 +30,6 @@ public class CreateModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        // Masalar listesi formdan gelmez, doğrulamaya girmesin.
         ModelState.Remove("Salon.Masalar");
 
         if (Salon.KapanisSaati <= Salon.AcilisSaati)
