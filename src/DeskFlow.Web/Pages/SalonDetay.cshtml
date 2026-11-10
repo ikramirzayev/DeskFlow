@@ -1,0 +1,52 @@
+﻿@page
+@model DeskFlow.Web.Pages.SalonDetayModel
+@{
+    ViewData["Title"] = Model.Salon!.Ad;
+}
+
+<h1 class="h3 mb-1">@Model.Salon!.Ad</h1>
+<p class="text-muted mb-4">
+    Kat @Model.Salon.Kat · @Model.Salon.AcilisSaati.ToString("HH:mm") – @Model.Salon.KapanisSaati.ToString("HH:mm")
+</p>
+
+<form method="get" class="mb-4">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="prizli" name="Prizli" value="true" checked="@Model.Prizli" />
+        <label class="form-check-label" for="prizli">Prizli</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="sessiz" name="Sessiz" value="true" checked="@Model.Sessiz" />
+        <label class="form-check-label" for="sessiz">Sessiz bölge</label>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm">Filtrele</button>
+</form>
+
+<div class="row">
+    @foreach (var masa in Model.Masalar)
+    {
+        <div class="col-6 col-md-4 col-lg-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5 card-title">Masa @masa.MasaNo</h2>
+                    <div class="mb-2">
+                        @if (masa.PrizliMi)
+                        {
+                            <span class="badge bg-warning text-dark">Prizli</span>
+                        }
+                        @if (masa.SessizBolgeMi)
+                        {
+                            <span class="badge bg-info text-dark">Sessiz</span>
+                        }
+                    </div>
+                    <a class="btn df-btn btn-dark btn-sm" asp-page="/RezervasyonOlustur" asp-route-masaId="@masa.Id">Rezerve et</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Masalar.Any())
+{
+    <p class="text-muted">Bu filtrelere uyan masa yok.</p>
+}
