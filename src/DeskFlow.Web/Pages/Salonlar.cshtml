@@ -1,4 +1,24 @@
 ﻿@page
 @model DeskFlow.Web.Pages.SalonlarModel
 @{
+    ViewData["Title"] = "Salonlar";
 }
+
+<h1 class="h3 mb-4">Salonlar</h1>
+
+<div class="row">
+    @foreach (var salon in Model.Salonlar)
+    {
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5 card-title">@salon.Ad</h2>
+                    <p class="text-muted mb-2">Kat @salon.Kat</p>
+                    <p class="mb-1">Saatler: @salon.AcilisSaati.ToString("HH:mm") – @salon.KapanisSaati.ToString("HH:mm")</p>
+                    <p class="mb-3">Masa sayısı: @salon.Masalar.Count(m => m.AktifMi)</p>
+                    <a class="btn df-btn btn-dark" asp-page="/SalonDetay" asp-route-id="@salon.Id">Masaları Gör</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
