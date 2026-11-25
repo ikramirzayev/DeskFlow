@@ -1,4 +1,74 @@
-﻿@page
-@model DeskFlow.Web.Pages.RezervasyonlarımModel
+@page
+@model DeskFlow.Web.Pages.RezervasyonlarimModel
 @{
+    ViewData["Title"] = "Rezervasyonlarım";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Rezervasyonlarım</h1>
+    <a asp-page="/Salonlar" class="btn btn-dark df-btn">Yeni rezervasyon</a>
+</div>
+
+<h2 class="h5 mt-4">Yaklaşan</h2>
+@if (Model.Yaklasan.Count == 0)
+{
+    <p class="text-muted">Yaklaşan rezervasyonunuz yok. <a asp-page="/Salonlar">Bir salon seçerek</a> masa ayırtabilirsiniz.</p>
+}
+else
+{
+    <div class="list-group mb-4">
+        @foreach (var r in Model.Yaklasan)
+        {
+            <div class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <div>
+                    <div class="fw-semibold">@r.SalonAdi · Masa @r.MasaNo</div>
+                    <small class="text-muted">
+                        Kat @r.Kat · @r.Baslangic.ToString("dd.MM.yyyy") · @r.Baslangic.ToString("HH:mm") – @r.Bitis.ToString("HH:mm")
+                    </small>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge @RezervasyonlarimModel.DurumRengi(r.Durum)">@RezervasyonlarimModel.DurumMetni(r.Durum)</span>
+                    @if (r.IptalEdilebilir)
+                    {
+                        <form method="post" asp-page-handler="Iptal" asp-route-id="@r.Id"
+                              onsubmit="return confirm('Bu rezervasyonu iptal etmek istediğinize emin misiniz?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">İptal et</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<h2 class="h5 mt-4">Geçmiş ve iptal edilenler</h2>
+@if (Model.Gecmis.Count == 0)
+{
+    <p class="text-muted">Henüz geçmiş rezervasyonunuz yok.</p>
+}
+else
+{
+    <table class="table table-sm align-middle">
+        <thead>
+            <tr>
+                <th>Salon</th>
+                <th>Masa</th>
+                <th>Tarih</th>
+                <th>Saat</th>
+                <th>Durum</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.Gecmis)
+            {
+                <tr>
+                    <td>@r.SalonAdi</td>
+                    <td>@r.MasaNo</td>
+                    <td>@r.Baslangic.ToString("dd.MM.yyyy")</td>
+                    <td>@r.Baslangic.ToString("HH:mm") – @r.Bitis.ToString("HH:mm")</td>
+                    <td><span class="badge @RezervasyonlarimModel.DurumRengi(r.Durum)">@RezervasyonlarimModel.DurumMetni(r.Durum)</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
