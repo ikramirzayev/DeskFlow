@@ -25,11 +25,13 @@
 <div class="row">
     @foreach (var masa in Model.Masalar)
     {
+        var dolu = Model.DoluMasaIdleri.Contains(masa.Id);
         <div class="col-6 col-md-4 col-lg-3 mb-3">
-            <div class="card h-100">
+            <div class="card h-100 border-2 @(dolu ? "border-danger bg-danger-subtle" : "border-success bg-success-subtle")">
                 <div class="card-body">
                     <h2 class="h5 card-title">Masa @masa.MasaNo</h2>
                     <div class="mb-2">
+                        <span class="badge @(dolu ? "bg-danger" : "bg-success")">@(dolu ? "Dolu" : "Boş")</span>
                         @if (masa.PrizliMi)
                         {
                             <span class="badge bg-warning text-dark">Prizli</span>
@@ -39,7 +41,7 @@
                             <span class="badge bg-info text-dark">Sessiz</span>
                         }
                     </div>
-                    <a class="btn df-btn btn-dark btn-sm" asp-page="/RezervasyonOlustur" asp-route-masaId="@masa.Id">Rezerve et</a>
+                    <a class="btn df-btn btn-dark btn-sm stretched-link" asp-page="/RezervasyonOlustur" asp-route-masaId="@masa.Id">Rezerve et</a>
                 </div>
             </div>
         </div>
