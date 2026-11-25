@@ -100,7 +100,7 @@ namespace DeskFlow.Web.Pages
                 $"Rezervasyonunuz oluşturuldu: {Masa!.Salon.Ad}, masa {Masa.MasaNo}, " +
                 $"{baslangic:dd.MM.yyyy} {baslangic:HH\\:mm} – {bitis:HH\\:mm}.";
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Rezervasyonlarim");
         }
 
         private async Task<bool> MasayiYukleAsync()

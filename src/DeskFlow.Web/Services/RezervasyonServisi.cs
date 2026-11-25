@@ -17,6 +17,14 @@ public class RezervasyonSonucu
         new() { Basarili = false, Hata = hata };
 }
 
+public enum IptalSonucu
+{
+    Tamam,
+    Bulunamadi,
+    YetkiYok,
+    IptalEdilemez
+}
+
 /// Rezervasyon kuralları tek yerde: hem web sayfası hem ileride API bunu kullanır.
 public class RezervasyonServisi
 {
@@ -89,6 +97,37 @@ public class RezervasyonServisi
 
         return RezervasyonSonucu.Tamam(rezervasyon);
     }
+
+    /// Sadece rezervasyonun sahibi, henüz başlamamış ve aktif durumdaki rezervasyonu iptal edebilir.
+    /// Kayıt silinmez, durumu İptal yapılır; böylece geçmişte görünmeye devam eder.
+    public async Task<IptalSonucu> IptalEtAsync(int rezervasyonId, string kullaniciId)
+    {
+        var rezervasyon = await _db.Rezervasyonlar.FindAsync(rezervasyonId);
+
+        if (rezervasyon is null)
+        {
+            return IptalSonucu.Bulunamadi;
+        }
+
+        if (rezervasyon.KullaniciId != kullaniciId)
+        {
+            return IptalSonucu.YetkiYok;
+        }
+
+        if (!IptalEdilebilirMi(rezervasyon, DateTime.UtcNow))
+        {
+            return IptalSonucu.IptalEdilemez;
+        }
+
+        rezervasyon.Durum = RezervasyonDurumu.Iptal;
+        await _db.SaveChangesAsync();
+
+        return IptalSonucu.Tamam;
+    }
+
+    public static bool IptalEdilebilirMi(Rezervasyon rezervasyon, DateTime simdiUtc) =>
+        (rezervasyon.Durum == RezervasyonDurumu.Beklemede || rezervasyon.Durum == RezervasyonDurumu.Aktif) &&
+        rezervasyon.Baslangic > simdiUtc;
 
     /// Veritabanına gitmeden kontrol edilebilen kurallar. Hata yoksa null döner.
     public static string? KurallariKontrolEt(Masa masa, DateTime baslangic, DateTime bitis, DateTime simdi)
