@@ -26,6 +26,7 @@ public class SalonDetayModel : PageModel
     public Salon? Salon { get; set; }
 
     public List<Masa> Masalar { get; set; } = new();
+    public HashSet<int> DoluMasaIdleri { get; set; } = new();
 
     public async Task<IActionResult> OnGetAsync()
     {
@@ -46,6 +47,15 @@ public class SalonDetayModel : PageModel
         }
 
         Masalar = await sorgu.OrderBy(m => m.MasaNo).ToListAsync();
+        var masaIdleri = Masalar.Select(m => m.Id).ToList();
+        var simdi = DateTime.UtcNow;
+
+        DoluMasaIdleri = (await _db.Rezervasyonlar
+            .Where(r => masaIdleri.Contains(r.MasaId)
+                && (r.Durum == RezervasyonDurumu.Beklemede || r.Durum == RezervasyonDurumu.Aktif)
+                && r.Baslangic <= simdi && simdi < r.Bitis)
+            .Select(r => r.MasaId)
+            .ToListAsync()).ToHashSet();
         return Page();
     }
 }
