@@ -1,0 +1,28 @@
+@page
+@model DeskFlow.Web.Pages.Admin.Masalar.QrModel
+@{
+    ViewData["Title"] = $"Masa {Model.Masa.MasaNo} QR";
+}
+
+<style>
+    /* Yazdırırken menü ve butonlar çıkmasın, sadece etiket basılsın. */
+    @@media print {
+        header, footer, .d-print-none { display: none !important; }
+        .qr-etiket { border: 2px solid #000 !important; }
+    }
+</style>
+
+<div class="d-print-none d-flex justify-content-between align-items-center mb-3">
+    <a asp-page="./Index" class="btn btn-outline-secondary btn-sm">Masalara dön</a>
+    <button type="button" class="btn btn-dark df-btn" onclick="window.print()">Yazdır</button>
+</div>
+
+<div class="qr-etiket card mx-auto text-center p-4" style="max-width: 360px;">
+    <div class="h4 mb-1">DeskFlow</div>
+    <div class="text-muted mb-3">@Model.Masa.Salon.Ad · Kat @Model.Masa.Salon.Kat</div>
+    <img src="data:image/png;base64,@Model.QrResmiBase64" alt="Masa @Model.Masa.MasaNo QR kodu"
+         class="img-fluid mx-auto d-block" style="width: 260px;" />
+    <div class="display-6 mt-3">Masa @Model.Masa.MasaNo</div>
+    <div class="small text-muted mt-2">Check-in için DeskFlow uygulamasıyla okutun</div>
+    <code class="small mt-1">@Model.Masa.QrKod</code>
+</div>

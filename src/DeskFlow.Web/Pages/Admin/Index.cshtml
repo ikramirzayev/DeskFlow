@@ -41,6 +41,33 @@
     </div>
 </div>
 
+<h2 class="h5 mb-3">Şu an</h2>
+<div class="row g-3 mb-4">
+    <div class="col-12 col-lg-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-baseline mb-2">
+                    <span class="text-muted">Doluluk</span>
+                    <span class="h4 mb-0">%@Model.DolulukYuzdesi</span>
+                </div>
+                <div class="progress" role="progressbar" aria-label="Doluluk"
+                     aria-valuenow="@Model.DolulukYuzdesi" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-dark" style="width: @Model.DolulukYuzdesi%"></div>
+                </div>
+                <small class="text-muted">@Model.SuAnDoluMasaSayisi / @Model.AktifMasaSayisi aktif masa şu an dolu</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="display-6">@Model.BugunGelmeyenSayisi</div>
+                <div class="text-muted">Bugün rezervasyonuna gelmeyen</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row g-3">
     <div class="col-12 col-md-6">
         <div class="card h-100">
@@ -57,6 +84,15 @@
                 <h2 class="h5 card-title">Masalar</h2>
                 <p class="card-text">Masa ekleyin, konumunu, prizini ve sessiz bölge bilgisini düzenleyin.</p>
                 <a href="/Admin/Masalar" class="btn btn-dark df-btn">Masaları Yönet</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h5 card-title">Rezervasyonlar</h2>
+                <p class="card-text">Bütün rezervasyonları tarihe, salona ve duruma göre süzün; gerekirse iptal edin.</p>
+                <a asp-page="/Admin/Rezervasyonlar/Index" class="btn btn-dark df-btn">Rezervasyonları Gör</a>
             </div>
         </div>
     </div>
