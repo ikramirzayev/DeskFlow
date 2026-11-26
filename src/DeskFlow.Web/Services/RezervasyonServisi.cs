@@ -8,13 +8,15 @@ public class RezervasyonSonucu
 {
     public bool Basarili { get; private init; }
     public string? Hata { get; private init; }
+    /// Hata bir çakışmadan (masa ya da kullanıcı o saatte dolu) geldiyse true. API bunu 409 olarak döner.
+    public bool Cakisma { get; private init; }
     public Rezervasyon? Rezervasyon { get; private init; }
 
     public static RezervasyonSonucu Tamam(Rezervasyon rezervasyon) =>
         new() { Basarili = true, Rezervasyon = rezervasyon };
 
-    public static RezervasyonSonucu Hatali(string hata) =>
-        new() { Basarili = false, Hata = hata };
+    public static RezervasyonSonucu Hatali(string hata, bool cakisma = false) =>
+        new() { Basarili = false, Hata = hata, Cakisma = cakisma };
 }
 
 public enum IptalSonucu
@@ -69,7 +71,7 @@ public class RezervasyonServisi
 
         if (masaDolu)
         {
-            return RezervasyonSonucu.Hatali("Bu masa seçilen saatte dolu. Lütfen başka bir saat ya da masa seçin.");
+            return RezervasyonSonucu.Hatali("Bu masa seçilen saatte dolu. Lütfen başka bir saat ya da masa seçin.", cakisma: true);
         }
 
         var kullaniciMesgul = await _db.Rezervasyonlar.AnyAsync(r =>
@@ -79,7 +81,7 @@ public class RezervasyonServisi
 
         if (kullaniciMesgul)
         {
-            return RezervasyonSonucu.Hatali("Bu saatte zaten bir rezervasyonunuz var.");
+            return RezervasyonSonucu.Hatali("Bu saatte zaten bir rezervasyonunuz var.", cakisma: true);
         }
 
         var rezervasyon = new Rezervasyon

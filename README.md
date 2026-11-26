@@ -89,6 +89,15 @@ Web'de giriş cookie ile yapıldığı için Swagger'da yetkili olmak için önc
 | PUT | `/api/masalar/{id}` | Yönetici | Masayı günceller |
 | DELETE | `/api/masalar/{id}` | Yönetici | Masayı siler (204). Rezervasyonu varsa 409 |
 
+Rezervasyon uç noktaları (hepsi giriş gerektirir):
+
+| Yöntem | Adres | Açıklama |
+|---|---|---|
+| GET | `/api/rezervasyonlar/benim` | Giriş yapan kullanıcının rezervasyonları |
+| POST | `/api/rezervasyonlar` | Rezervasyon oluşturur (201). Kural hatasında 400, masa/saat çakışmasında 409. Gövde: `{"masaId":5,"baslangic":"2026-11-27T10:00:00","bitis":"2026-11-27T12:00:00"}` (yerel saat, `Z` olmadan) |
+| DELETE | `/api/rezervasyonlar/{id}` | Rezervasyonu iptal eder (204, kayıt silinmez, durumu İptal olur). Kayıt yoksa 404, başkasınınsa 403, başlamışsa 409 |
+| GET | `/api/salonlar/{id}/doluluk?tarih=2026-11-27` | O gün salondaki her masanın dolu saat aralıkları |
+
 `/api` ile başlayan isteklerde giriş yoksa 401, yetki yoksa 403 döner (giriş sayfasına yönlendirilmez).
 
 ## Çalışma kuralları
