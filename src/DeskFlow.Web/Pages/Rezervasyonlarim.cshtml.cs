@@ -105,24 +105,5 @@ namespace DeskFlow.Web.Pages
 
             return RedirectToPage();
         }
-
-        public static string DurumMetni(RezervasyonDurumu durum) => durum switch
-        {
-            RezervasyonDurumu.Beklemede => "Beklemede",
-            RezervasyonDurumu.Aktif => "Aktif",
-            RezervasyonDurumu.Tamamlandi => "Tamamlandı",
-            RezervasyonDurumu.Iptal => "İptal edildi",
-            RezervasyonDurumu.Gelmedi => "Gelinmedi",
-            _ => durum.ToString()
-        };
-
-        public static string DurumRengi(RezervasyonDurumu durum) => durum switch
-        {
-            RezervasyonDurumu.Beklemede => "text-bg-warning",
-            RezervasyonDurumu.Aktif => "text-bg-success",
-            RezervasyonDurumu.Tamamlandi => "text-bg-secondary",
-            RezervasyonDurumu.Iptal => "text-bg-danger",
-            _ => "text-bg-dark"
-        };
     }
 }

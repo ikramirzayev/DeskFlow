@@ -1,0 +1,90 @@
+@page
+@model DeskFlow.Web.Pages.Admin.Rezervasyonlar.IndexModel
+@{
+    ViewData["Title"] = "Rezervasyonlar";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Rezervasyonlar</h1>
+    <a asp-page="/Admin/Index" class="btn btn-outline-secondary btn-sm">Panele dön</a>
+</div>
+
+<form method="get" class="row g-2 align-items-end mb-3">
+    <div class="col-12 col-md-3">
+        <label asp-for="Tarih" class="form-label">Tarih</label>
+        <input asp-for="Tarih" type="date" class="form-control" />
+    </div>
+    <div class="col-6 col-md-3">
+        <label asp-for="SalonId" class="form-label">Salon</label>
+        <select asp-for="SalonId" asp-items="Model.Salonlar" class="form-select">
+            <option value="">Tüm salonlar</option>
+        </select>
+    </div>
+    <div class="col-6 col-md-3">
+        <label asp-for="Durum" class="form-label">Durum</label>
+        <select asp-for="Durum" asp-items="Model.Durumlar" class="form-select">
+            <option value="">Tüm durumlar</option>
+        </select>
+    </div>
+    <div class="col-12 col-md-3 d-flex gap-2">
+        <button type="submit" class="btn btn-dark df-btn flex-grow-1">Filtrele</button>
+        <a asp-page="./Index" class="btn btn-outline-secondary">Temizle</a>
+    </div>
+</form>
+
+<p class="text-muted small mb-2">
+    @Model.Satirlar.Count kayıt
+    @if (Model.SinirAsildi)
+    {
+        <span>(en yeni 200 kayıt gösteriliyor; filtreyi daraltın)</span>
+    }
+</p>
+
+@if (Model.Satirlar.Count == 0)
+{
+    <div class="alert alert-light border">Bu filtrelere uyan rezervasyon yok.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-sm align-middle">
+            <thead>
+                <tr>
+                    <th>Öğrenci</th>
+                    <th>No</th>
+                    <th>Salon</th>
+                    <th>Masa</th>
+                    <th>Tarih</th>
+                    <th>Saat</th>
+                    <th>Durum</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model.Satirlar)
+                {
+                    <tr>
+                        <td>@r.AdSoyad</td>
+                        <td>@(r.OgrenciNo ?? "-")</td>
+                        <td>@r.SalonAdi</td>
+                        <td>@r.MasaNo</td>
+                        <td>@r.Baslangic.ToString("dd.MM.yyyy")</td>
+                        <td>@r.Baslangic.ToString("HH:mm") – @r.Bitis.ToString("HH:mm")</td>
+                        <td><span class="badge @r.Durum.RozetRengi()">@r.Durum.Metin()</span></td>
+                        <td class="text-end">
+                            @if (r.IptalEdilebilir)
+                            {
+                                <form method="post" asp-page-handler="Iptal" asp-route-id="@r.Id"
+                                      asp-route-tarih="@Model.Tarih?.ToString("yyyy-MM-dd")"
+                                      asp-route-salonId="@Model.SalonId" asp-route-durum="@Model.Durum"
+                                      onsubmit="return confirm('Bu rezervasyon iptal edilsin mi?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">İptal et</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

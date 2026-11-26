@@ -127,6 +127,30 @@ public class RezervasyonServisi
         return IptalSonucu.Tamam;
     }
 
+    /// Yönetici herhangi bir kullanıcının rezervasyonunu iptal edebilir (sahiplik kontrolü yok).
+    /// Başlamış ama bitmemiş rezervasyon da kapatılabilir; bitmiş olanlar geçmiş kayıttır, dokunulmaz.
+    public async Task<IptalSonucu> YoneticiIptalAsync(int rezervasyonId)
+    {
+        var rezervasyon = await _db.Rezervasyonlar.FindAsync(rezervasyonId);
+
+        if (rezervasyon is null)
+        {
+            return IptalSonucu.Bulunamadi;
+        }
+
+        var devamEdiyor = rezervasyon.Durum == RezervasyonDurumu.Beklemede ||
+                          rezervasyon.Durum == RezervasyonDurumu.Aktif;
+        if (!devamEdiyor || rezervasyon.Bitis <= DateTime.UtcNow)
+        {
+            return IptalSonucu.IptalEdilemez;
+        }
+
+        rezervasyon.Durum = RezervasyonDurumu.Iptal;
+        await _db.SaveChangesAsync();
+
+        return IptalSonucu.Tamam;
+    }
+
     public static bool IptalEdilebilirMi(Rezervasyon rezervasyon, DateTime simdiUtc) =>
         (rezervasyon.Durum == RezervasyonDurumu.Beklemede || rezervasyon.Durum == RezervasyonDurumu.Aktif) &&
         rezervasyon.Baslangic > simdiUtc;
