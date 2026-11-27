@@ -41,6 +41,8 @@ namespace DeskFlow.Web.Pages
             public DateTime Bitis { get; init; }
             public RezervasyonDurumu Durum { get; init; }
             public bool IptalEdilebilir { get; init; }
+            public string QrKod { get; init; } = string.Empty;
+            public bool CheckInYapilabilir { get; init; }
         }
 
         public async Task OnGetAsync()
@@ -66,7 +68,11 @@ namespace DeskFlow.Web.Pages
                     Baslangic = r.Baslangic.ToLocalTime(),
                     Bitis = r.Bitis.ToLocalTime(),
                     Durum = r.Durum,
-                    IptalEdilebilir = RezervasyonServisi.IptalEdilebilirMi(r, simdiUtc)
+                    IptalEdilebilir = RezervasyonServisi.IptalEdilebilirMi(r, simdiUtc),
+                    QrKod = r.Masa.QrKod,
+                    CheckInYapilabilir = r.Durum == RezervasyonDurumu.Beklemede &&
+                     simdiUtc >= r.Baslangic.AddMinutes(-CheckInServisi.OnceDakika) &&
+                     simdiUtc <= r.Baslangic.AddMinutes(CheckInServisi.GecikmeDakika)
                 };
 
                 var devamEdiyor = r.Durum == RezervasyonDurumu.Beklemede || r.Durum == RezervasyonDurumu.Aktif;

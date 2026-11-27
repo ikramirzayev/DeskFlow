@@ -28,6 +28,10 @@ else
                 </div>
                 <div class="d-flex align-items-center gap-2">
                     <span class="badge @r.Durum.RozetRengi()">@r.Durum.Metin()</span>
+                    @if (r.CheckInYapilabilir)
+                    {
+                        <a asp-page="/CheckIn" asp-route-kod="@r.QrKod" class="btn btn-sm btn-dark df-btn">Check-in yap</a>
+                    }
                     @if (r.IptalEdilebilir)
                     {
                         <form method="post" asp-page-handler="Iptal" asp-route-id="@r.Id"

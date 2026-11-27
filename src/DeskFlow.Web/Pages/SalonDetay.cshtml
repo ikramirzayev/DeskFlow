@@ -25,13 +25,25 @@
 <div class="row">
     @foreach (var masa in Model.Masalar)
     {
-        var dolu = Model.DoluMasaIdleri.Contains(masa.Id);
+        var bos = !Model.MasaDurumlari.TryGetValue(masa.Id, out var durum);
+
+        var kartSinifi = bos ? "border-success bg-success-subtle"
+            : durum == RezervasyonDurumu.Aktif ? "border-danger bg-danger-subtle"
+            : "border-warning bg-warning-subtle";
+
+        var rozetSinifi = bos ? "bg-success"
+            : durum == RezervasyonDurumu.Aktif ? "bg-danger"
+            : "bg-warning text-dark";
+
+        var rozetMetni = bos ? "Boş"
+            : durum == RezervasyonDurumu.Aktif ? "Check-in yapıldı"
+            : "Rezerve";
         <div class="col-6 col-md-4 col-lg-3 mb-3">
-            <div class="card h-100 border-2 @(dolu ? "border-danger bg-danger-subtle" : "border-success bg-success-subtle")">
+            <div class="card h-100 border-2 @kartSinifi">
                 <div class="card-body">
                     <h2 class="h5 card-title">Masa @masa.MasaNo</h2>
                     <div class="mb-2">
-                        <span class="badge @(dolu ? "bg-danger" : "bg-success")">@(dolu ? "Dolu" : "Boş")</span>
+                        <span class="badge @rozetSinifi">@rozetMetni</span>
                         @if (masa.PrizliMi)
                         {
                             <span class="badge bg-warning text-dark">Prizli</span>
