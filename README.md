@@ -98,6 +98,14 @@ Rezervasyon uç noktaları (hepsi giriş gerektirir):
 | DELETE | `/api/rezervasyonlar/{id}` | Rezervasyonu iptal eder (204, kayıt silinmez, durumu İptal olur). Kayıt yoksa 404, başkasınınsa 403, başlamışsa 409 |
 | GET | `/api/salonlar/{id}/doluluk?tarih=2026-11-27` | O gün salondaki her masanın dolu saat aralıkları |
 
+Check-in (giriş gerektirir):
+
+| Yöntem | Adres | Açıklama |
+|---|---|---|
+| POST | `/api/checkin` | Gövde: `{"qrKod":"DF-S1-M03"}`. Başarılıysa 200 (rezervasyon Aktif olur, CheckInKayitlari'na kayıt düşer). Masa yoksa 404; bekleyen rezervasyon yok / erken geldi / geç kaldı ise 409 |
+
+Check-in penceresi başlangıçtan 15 dk önce ile 15 dk sonra arasıdır. `DurumGuncelleyici` her dakika: başlangıcından 15 dk geçmiş ve check-in yapılmamış rezervasyonları `Gelmedi`, bitişi geçmiş `Aktif` rezervasyonları `Tamamlandi` yapar.
+
 `/api` ile başlayan isteklerde giriş yoksa 401, yetki yoksa 403 döner (giriş sayfasına yönlendirilmez).
 
 ## Çalışma kuralları
