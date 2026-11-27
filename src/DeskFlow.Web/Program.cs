@@ -22,6 +22,10 @@ builder.Services.AddDbContext<AppDbContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<RezervasyonServisi>();
+builder.Services.AddScoped<CheckInServisi>();
+
+// Her dakika Gelmedi / Tamamlandi durumlarını günceller (içinde IServiceScopeFactory ile scope açar).
+builder.Services.AddHostedService<DurumGuncelleyici>();
 
 builder.Services
     .AddIdentity<Kullanici, IdentityRole>(o =>
