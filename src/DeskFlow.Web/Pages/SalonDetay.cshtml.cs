@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace DeskFlow.Web.Pages;
+
 public class SalonDetayModel : PageModel
 {
     private readonly AppDbContext _db;
@@ -26,8 +27,7 @@ public class SalonDetayModel : PageModel
     public Salon? Salon { get; set; }
 
     public List<Masa> Masalar { get; set; } = new();
-    public HashSet<int> DoluMasaIdleri { get; set; } = new();
-
+    public Dictionary<int, RezervasyonDurumu> MasaDurumlari { get; set; } = new();
     public async Task<IActionResult> OnGetAsync()
     {
         Salon = await _db.Salonlar.FirstOrDefaultAsync(s => s.Id == Id && s.AktifMi);
@@ -50,12 +50,20 @@ public class SalonDetayModel : PageModel
         var masaIdleri = Masalar.Select(m => m.Id).ToList();
         var simdi = DateTime.UtcNow;
 
-        DoluMasaIdleri = (await _db.Rezervasyonlar
-            .Where(r => masaIdleri.Contains(r.MasaId)
-                && (r.Durum == RezervasyonDurumu.Beklemede || r.Durum == RezervasyonDurumu.Aktif)
-                && r.Baslangic <= simdi && simdi < r.Bitis)
-            .Select(r => r.MasaId)
-            .ToListAsync()).ToHashSet();
+        var simdikiler = await _db.Rezervasyonlar
+    .Where(r => masaIdleri.Contains(r.MasaId)
+        && (r.Durum == RezervasyonDurumu.Beklemede || r.Durum == RezervasyonDurumu.Aktif)
+        && r.Baslangic <= simdi && simdi < r.Bitis)
+    .Select(r => new { r.MasaId, r.Durum })
+    .ToListAsync();
+
+        MasaDurumlari = simdikiler
+            .GroupBy(x => x.MasaId)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Any(x => x.Durum == RezervasyonDurumu.Aktif)
+                    ? RezervasyonDurumu.Aktif
+                    : RezervasyonDurumu.Beklemede);
         return Page();
     }
 }
